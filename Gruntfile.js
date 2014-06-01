@@ -4,8 +4,18 @@
 module.exports = function( grunt ) {
 	
 	// Configurations
-	var jsDir = process.cwd() + '/js',  // for some reason, grunt (or node) doesn't start Java in the current working directory, so need to use absolute paths for files passed as arguments to it
+	/*var jsDir = process.cwd() + '/js',  // for some reason, grunt (or node) doesn't start Java in the current working directory, so need to use absolute paths for files passed as arguments to it
 		jsBuildDir = process.cwd() + '/output',
+		bowerDir = process.cwd() + '/bower_components',
+		
+		requireJsOutputDir = jsBuildDir + '/requireJsOutput';
+	*/
+	
+	
+	// Configurations
+	var jsDir = 'js',
+		jsBuildDir = 'output',
+		bowerDir = 'bower_components',
 		
 		requireJsOutputDir = jsBuildDir + '/requireJsOutput';
 	
@@ -18,7 +28,16 @@ module.exports = function( grunt ) {
 		[ 'js' ] );
 
 	grunt.registerTask( 'js', "Builds both using UglifyJS and Closure", 
-		[ 'jshint', 'requirejs:compile', 'uglify:dist', 'closureCompiler:dist' ] );
+		[ 'doClosure', 'doRequirejs' ] );
+	
+	
+	grunt.registerTask( 'doClosure', "Uses the Closure compiler to build the output file",
+		[ 'jshint', 'copy:beforeClosureCompiler', 'closureCompiler:dist' ] );
+	
+	grunt.registerTask( 'doRequirejs', "Uses the RequireJS optimizer and UglifyJS to build the output file",
+		[ 'jshint', 'requirejs:compile', 'uglify:dist' ] );
+	
+	
 	
 	
 	// -----------------------------------
@@ -42,7 +61,7 @@ module.exports = function( grunt ) {
 				// Accepts same options as RequireJS optimizer build file.
 				// Example of all available options at: https://github.com/jrburke/r.js/blob/master/build/example.build.js
 				options : {
-					baseUrl: jsDir + '/requirejs',
+					baseUrl: jsDir,
 					name: "main",
 					dir: requireJsOutputDir,  // Used in the "done" handler of the requirejs:compile task
 
@@ -50,7 +69,11 @@ module.exports = function( grunt ) {
 					optimize: 'none',
 
 					skipDirOptimize: true,       // don't optimize all of the individual files that are copied to the build dir - just optimize the "bundle" files (if `optimize` is set to something other than "none")
-					normalizeDirDefines: "skip"  // since we don't load individual files, we only need to worry about the bundle files
+					normalizeDirDefines: "skip", // since we don't load individual files, we only need to worry about the bundle files
+					
+					paths : {
+						'Class' : '../bower_components/Class-js/src/Class'
+					}
 				}
 			}
 		},
@@ -63,10 +86,20 @@ module.exports = function( grunt ) {
 				},
 				files : (function() {
 					var obj = {};
-					obj[ jsBuildDir + '/RJSTest-uglify.js' ] = [ requireJsOutputDir + '/main.js' ];
+					obj[ jsBuildDir + '/PersonTest-out-requirejs.js' ] = [ requireJsOutputDir + '/main.js' ];
 					
 					return obj;
 				} )()
+			}
+		},
+		
+		
+		copy : {
+			beforeClosureCompiler : {
+				files: [
+					{ src: [ 'bower_components/Class-js/src/Class_no_UMD.js' ], dest: 'output/closurePreProcess/Class.js' },
+					{ expand: true, cwd: 'js/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/' }
+				]
 			}
 		},
 		
@@ -84,15 +117,15 @@ module.exports = function( grunt ) {
 				// [OPTIONAL] Set Closure Compiler Directives here
 				compilerOpts: {
 					compilation_level: 'ADVANCED_OPTIMIZATIONS',
+					formatting: 'PRETTY_PRINT',
 					warning_level: 'verbose',
 					jscomp_off: ['checkTypes', 'fileoverviewTags'],
 					summary_detail_level: 3,
 					//output_wrapper: '"(function(){%output%}).call(this);"',
 					transform_amd_modules: null,
 					process_common_js_modules: null,
-					common_js_entry_module: 'main.js',
-					language_in: 'ECMASCRIPT3'
-					//--common_js_module_path_prefix
+					common_js_entry_module: jsBuildDir + '/closurePreProcess/main.js',
+					common_js_module_path_prefix: 'output/closurePreProcess/'
 				},
 				
 				// [OPTIONAL] Set exec method options
@@ -120,10 +153,10 @@ module.exports = function( grunt ) {
 			dist: {
 				// [OPTIONAL] Target files to compile. Can be a string, an array of strings
 				// or grunt file syntax (<config:...>, *)
-				src: [ jsDir + '/requirejs/*.js' ],
+				src: [ jsBuildDir + '/closurePreProcess/**/*.js' ],
 		
 				// [OPTIONAL] set an output file
-				dest: jsBuildDir + '/RJSTest-closure.js'
+				dest: jsBuildDir + '/PersonTest-out-closure.js'
 			}
 		}
 		
@@ -132,6 +165,7 @@ module.exports = function( grunt ) {
 
 	// These plugins provide the tasks
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-requirejs' );

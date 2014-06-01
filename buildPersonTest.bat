@@ -1,0 +1,11 @@
+java -jar compiler.jar ^
+  --compilation_level ADVANCED_OPTIMIZATIONS ^
+  --js bower_components/Class-js/src/Class_no_UMD.js ^
+  --js js/Person.js ^
+  --js js/main.js ^
+  --js_output_file output/PersonTest-out.js ^
+  --formatting PRETTY_PRINT ^
+  --transform_amd_modules ^
+  --process_common_js_modules ^
+  --common_js_entry_module js/main.js ^
+  --common_js_module_path_prefix js/

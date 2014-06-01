@@ -2,7 +2,5 @@
 main.js
 ----------------
 Class.js
-Person.js
-Observer.js
-User.js
+person/Person.js
 main.js

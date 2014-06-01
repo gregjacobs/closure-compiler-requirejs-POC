@@ -70,15 +70,7 @@
 
 // Initialization handles the availability of an AMD loader (like require.js, which has function `define()`).
 // If no AMD loader, injects browser global `Class`
-(function( root, factory ) {
-	if( typeof exports === 'object' ) {
-		module.exports = factory();  // NodeJS
-	} else if( typeof define === 'function' && define.amd ) {
-		define( 'Class',factory );           // Handle availability of AMD loader
-	} else {
-		root.Class = factory();      // Browser global (root == window)
-	}
-}( this, function() {
+define(function() {
 	
 	// Utility functions / variables	
 	
@@ -634,69 +626,5 @@
 	
 	
 	return Class;
-	
-} ) );
-/*global define */
-define( 'person/Person',[
-	'Class'
-], function( Class ) {
-
-	/**
-	 * @class Person
-	 */
-	var Person = Class.create( /** @lends Person.prototype */ {
-	    
-		/**
-		 * @constructor
-		 */
-		constructor : function( cfg ) {
-		    for( var prop in cfg ) {
-				this[ prop ] = cfg[ prop ];
-			}
-		},
-		
-		logId : function() { console.log( "Id: " + this.id ); },
-		logFirstName : function() { console.log( "First Name: " + this.firstName ); },
-		logLastName : function() { console.log( "Last Name: " + this.lastName ); }
-		
-	} );
-	
-	return Person;
-	
-} );
-/*global require */
-/*global define */
-
-/*require( [
-	'Observer',
-	'User'
-], function( Observer, User ) {
-
-	var observer1 = new Observer( { id: 1, firstName: "Bob", observerName: "Test Observer" } );
-	var user1 = new User( { id: 2, lastName: "Doe", username: "jdoe" } );
-	
-	observer1.logId();
-	observer1.logFirstName();
-	observer1.logLastName();
-	observer1.logObserverName();
-	
-	user1.logId();
-	user1.logFirstName();
-	user1.logLastName();
-	user1.logUsername();
-	
-} );*/
-
-define( 'main',[
-	'person/Person'
-], function( Person ) {
-
-	var person1 = new Person( { id: 1, firstName: "Bob", lastName: "Smith" } );
-	
-	person1.logId();
-	person1.logFirstName();
-	person1.logLastName();
-	
-	return person1;
 	
 } );

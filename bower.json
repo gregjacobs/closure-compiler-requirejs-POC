@@ -1,0 +1,20 @@
+{
+  "name": "closure-compiler-requirejs-POC",
+  "version": "0.0.0",
+  "homepage": "https://github.com/gregjacobs/closure-compiler-requirejs-POC",
+  "authors": [
+    "Gregory Jacobs <greg@greg-jacobs.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Class-js": "~0.5.1"
+  }
+}
