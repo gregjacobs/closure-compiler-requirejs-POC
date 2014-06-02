@@ -86,7 +86,7 @@ module.exports = function( grunt ) {
 				},
 				files : (function() {
 					var obj = {};
-					obj[ jsBuildDir + '/PersonTest-out-requirejs.js' ] = [ requireJsOutputDir + '/main.js' ];
+					obj[ jsBuildDir + '/DataTest-out-requirejs.js' ] = [ requireJsOutputDir + '/main.js' ];
 					
 					return obj;
 				} )()
@@ -97,7 +97,14 @@ module.exports = function( grunt ) {
 		copy : {
 			beforeClosureCompiler : {
 				files: [
+					{ src: [ 'bower_components/jquery/jquery.js' ], dest: 'output/closurePreProcess/jquery.js' },
+					{ src: [ 'bower_components/lodash/dist/lodash.compat.min.js' ], dest: 'output/closurePreProcess/lodash.js' },
 					{ src: [ 'bower_components/Class-js/src/Class_no_UMD.js' ], dest: 'output/closurePreProcess/Class.js' },
+					{ src: [ 'bower_components/Observable-js/dist/Observable.js' ], dest: 'output/closurePreProcess/Observable.js' },
+					{ src: [ 'bower_components/Class-js/src/Class_no_UMD.js' ], dest: 'output/closurePreProcess/Class.js' },
+					
+					{ expand: true, cwd: 'bower_components/Data-js/src/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/data/' },
+					
 					{ expand: true, cwd: 'js/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/' }
 				]
 			}
@@ -125,7 +132,10 @@ module.exports = function( grunt ) {
 					transform_amd_modules: null,
 					process_common_js_modules: null,
 					common_js_entry_module: jsBuildDir + '/closurePreProcess/main.js',
-					common_js_module_path_prefix: 'output/closurePreProcess/'
+					common_js_module_path_prefix: 'output/closurePreProcess/',
+					
+					// Ignore JSDuck tags
+					extra_annotation_name: [ 'abstract', 'alias', 'cfg', 'chainable', 'inheritable', 'inheritdoc', 'hide', 'singleton' ]
 				},
 				
 				// [OPTIONAL] Set exec method options

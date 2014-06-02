@@ -1,29 +1,8 @@
-/*global require */
 /*global define */
-
-/*require( [
-	'Observer',
-	'User'
-], function( Observer, User ) {
-
-	var observer1 = new Observer( { id: 1, firstName: "Bob", observerName: "Test Observer" } );
-	var user1 = new User( { id: 2, lastName: "Doe", username: "jdoe" } );
-	
-	observer1.logId();
-	observer1.logFirstName();
-	observer1.logLastName();
-	observer1.logObserverName();
-	
-	user1.logId();
-	user1.logFirstName();
-	user1.logLastName();
-	user1.logUsername();
-	
-} );*/
-
 define( [
-	'person/Person'
-], function( Person ) {
+	'person/Person',
+	'model/Document'
+], function( Person, Document ) {
 
 	var person1 = new Person( { id: 1, firstName: "Bob", lastName: "Smith" } );
 	
@@ -31,6 +10,9 @@ define( [
 	person1.logFirstName();
 	person1.logLastName();
 	
-	return person1;
+	var document = new Document( { id: 1, title: "Document 1" } );
+	console.log( "Document " + document.get( 'id' ) + ": " + document.get( 'title' ) );
+	
+	return document;
 	
 } );

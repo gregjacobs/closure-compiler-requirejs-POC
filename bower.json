@@ -15,6 +15,10 @@
     "tests"
   ],
   "dependencies": {
-    "Class-js": "~0.5.1"
+    "Class-js": "~0.5.1",
+    "Data-js": "~0.7.0"
+  },
+  "resolutions": {
+    "lodash": "~2.4.0"
   }
 }
