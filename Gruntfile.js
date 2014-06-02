@@ -4,20 +4,21 @@
 module.exports = function( grunt ) {
 	
 	// Configurations
-	/*var jsDir = process.cwd() + '/js',  // for some reason, grunt (or node) doesn't start Java in the current working directory, so need to use absolute paths for files passed as arguments to it
-		jsBuildDir = process.cwd() + '/output',
-		bowerDir = process.cwd() + '/bower_components',
+	var cwd = process.cwd().replace( /C\:/, '' ).replace( /\\/, '/' ),
+	    jsDir = cwd + '/js',  // for some reason, grunt (or node) doesn't start Java in the current working directory, so need to use absolute paths for files passed as arguments to it
+		jsBuildDir = cwd + '/output',
+		bowerDir = cwd + '/bower_components',
 		
 		requireJsOutputDir = jsBuildDir + '/requireJsOutput';
-	*/
 	
 	
 	// Configurations
-	var jsDir = 'js',
+	/*var jsDir = 'js',
 		jsBuildDir = 'output',
 		bowerDir = 'bower_components',
 		
 		requireJsOutputDir = jsBuildDir + '/requireJsOutput';
+	*/
 	
 	
 	// Register main tasks
@@ -54,6 +55,11 @@ module.exports = function( grunt ) {
 				'devel'     : true
 			}
 		},
+		
+		
+		// -----------------------------------
+		
+		// For RequireJS Optimizer
 
 		
 		requirejs : {
@@ -72,7 +78,12 @@ module.exports = function( grunt ) {
 					normalizeDirDefines: "skip", // since we don't load individual files, we only need to worry about the bundle files
 					
 					paths : {
-						'Class' : '../bower_components/Class-js/src/Class'
+						'jquery'     : '../bower_components/jquery/jquery',
+						'lodash'     : '../bower_components/lodash/dist/lodash.compat',
+						'Class'      : '../bower_components/Class-js/src/Class',
+						'Observable' : '../bower_components/Observable-js/dist/Observable',
+						
+						'data'       : '../bower_components/Data-js/src'
 					}
 				}
 			}
@@ -94,16 +105,20 @@ module.exports = function( grunt ) {
 		},
 		
 		
+		// -----------------------------------
+		
+		// For Closure Compiler
+		
+		
 		copy : {
 			beforeClosureCompiler : {
 				files: [
-					{ src: [ 'bower_components/jquery/jquery.js' ], dest: 'output/closurePreProcess/jquery.js' },
-					{ src: [ 'bower_components/lodash/dist/lodash.compat.min.js' ], dest: 'output/closurePreProcess/lodash.js' },
+					//{ src: [ 'bower_components/jquery/jquery.js' ], dest: 'output/closurePreProcess/jquery.js' },
+					//{ src: [ 'bower_components/lodash/dist/lodash.compat.min.js' ], dest: 'output/closurePreProcess/lodash.js' },
 					{ src: [ 'bower_components/Class-js/src/Class_no_UMD.js' ], dest: 'output/closurePreProcess/Class.js' },
-					{ src: [ 'bower_components/Observable-js/dist/Observable.js' ], dest: 'output/closurePreProcess/Observable.js' },
-					{ src: [ 'bower_components/Class-js/src/Class_no_UMD.js' ], dest: 'output/closurePreProcess/Class.js' },
+					//{ src: [ 'bower_components/Observable-js/dist/Observable.js' ], dest: 'output/closurePreProcess/Observable.js' },
 					
-					{ expand: true, cwd: 'bower_components/Data-js/src/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/data/' },
+					//{ expand: true, cwd: 'bower_components/Data-js/src/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/data/' },
 					
 					{ expand: true, cwd: 'js/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/' }
 				]
@@ -132,10 +147,10 @@ module.exports = function( grunt ) {
 					transform_amd_modules: null,
 					process_common_js_modules: null,
 					common_js_entry_module: jsBuildDir + '/closurePreProcess/main.js',
-					common_js_module_path_prefix: 'output/closurePreProcess/',
+					common_js_module_path_prefix: 'output/closurePreProcess/'//,
 					
 					// Ignore JSDuck tags
-					extra_annotation_name: [ 'abstract', 'alias', 'cfg', 'chainable', 'inheritable', 'inheritdoc', 'hide', 'singleton' ]
+					//extra_annotation_name: [ 'abstract', 'alias', 'cfg', 'chainable', 'inheritable', 'inheritdoc', 'hide', 'singleton' ]
 				},
 				
 				// [OPTIONAL] Set exec method options
