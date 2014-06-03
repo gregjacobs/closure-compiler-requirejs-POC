@@ -4,7 +4,7 @@
 module.exports = function( grunt ) {
 	
 	// Configurations
-	var cwd = process.cwd().replace( /C\:/, '' ).replace( /\\/g, '/' ),
+	var cwd = process.cwd().replace( /\\/g, '/' ),
 	    jsDir = cwd + '/js',  // for some reason, grunt (or node) doesn't start Java in the current working directory, so need to use absolute paths for files passed as arguments to it
 		jsBuildDir = cwd + '/output',
 		bowerDir = cwd + '/bower_components',
@@ -147,7 +147,7 @@ module.exports = function( grunt ) {
 					transform_amd_modules: null,
 					process_common_js_modules: null,
 					common_js_entry_module: jsBuildDir + '/closurePreProcess/main.js',
-					common_js_module_path_prefix: "C:" + jsBuildDir + '/closurePreProcess/'//,
+					common_js_module_path_prefix: jsBuildDir + '/closurePreProcess/'//,
 					
 					// Ignore JSDuck tags
 					//extra_annotation_name: [ 'abstract', 'alias', 'cfg', 'chainable', 'inheritable', 'inheritdoc', 'hide', 'singleton' ]
