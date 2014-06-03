@@ -4,13 +4,12 @@
 module.exports = function( grunt ) {
 	
 	// Configurations
-	var cwd = process.cwd().replace( /C\:/, '' ).replace( /\\/, '/' ),
+	var cwd = process.cwd().replace( /C\:/, '' ).replace( /\\/g, '/' ),
 	    jsDir = cwd + '/js',  // for some reason, grunt (or node) doesn't start Java in the current working directory, so need to use absolute paths for files passed as arguments to it
 		jsBuildDir = cwd + '/output',
 		bowerDir = cwd + '/bower_components',
 		
 		requireJsOutputDir = jsBuildDir + '/requireJsOutput';
-	
 	
 	// Configurations
 	/*var jsDir = 'js',
@@ -120,7 +119,8 @@ module.exports = function( grunt ) {
 					
 					//{ expand: true, cwd: 'bower_components/Data-js/src/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/data/' },
 					
-					{ expand: true, cwd: 'js/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/' }
+					//{ expand: true, cwd: 'js/', src: [ '**/*.js' ], dest: 'output/closurePreProcess/' }
+					{ expand: true, cwd: 'js/', src: [ 'person/Person.js', 'main.js' ], dest: 'output/closurePreProcess/' }
 				]
 			}
 		},
@@ -147,7 +147,7 @@ module.exports = function( grunt ) {
 					transform_amd_modules: null,
 					process_common_js_modules: null,
 					common_js_entry_module: jsBuildDir + '/closurePreProcess/main.js',
-					common_js_module_path_prefix: 'output/closurePreProcess/'//,
+					common_js_module_path_prefix: "C:" + jsBuildDir + '/closurePreProcess/'//,
 					
 					// Ignore JSDuck tags
 					//extra_annotation_name: [ 'abstract', 'alias', 'cfg', 'chainable', 'inheritable', 'inheritdoc', 'hide', 'singleton' ]
@@ -183,12 +183,20 @@ module.exports = function( grunt ) {
 				// [OPTIONAL] set an output file
 				dest: jsBuildDir + '/PersonTest-out-closure.js'
 			}
-		}
+		},
+		
+		
+		// -----------------------------------
+		
+		// Clean
+		
+		clean : [ jsBuildDir + '/closurePreProcess' ]
 		
 	} );
 	
 
 	// These plugins provide the tasks
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-copy' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );

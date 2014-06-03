@@ -2,7 +2,7 @@ var f = !1;
 if ("undefined" !== typeof window) {
   var u = window.navigator.userAgent.toLowerCase(), f = /msie/.test(u) && !/opera/.test(u)
 }
-var v = 0, w = {p:function() {
+var v = 0, w = {k:function() {
   throw Error("method must be implemented in subclass");
 }, apply:function(b, c, e) {
   e && w.apply(b, e);
@@ -26,22 +26,22 @@ w.extend = function() {
   return function(e, a) {
     function k(a, b) {
       return function() {
-        var c = this.c, d = this;
-        this.c = function(b) {
+        var c = this.f, d = this;
+        this.f = function(b) {
           return m[a].apply(d, b || []);
         };
         var e = b.apply(this, arguments);
-        this.c = c;
+        this.f = c;
         return e;
       };
     }
     function l() {
     }
     1 === arguments.length && (a = e, e = Object);
-    var d, n, h, m = e.prototype, p = !!a.o, g, q = a.t, r = a.q, s = a.f;
+    var d, n, h, m = e.prototype, p = !!a.j, g, q = a.t, r = a.m, s = a.c;
     delete a.t;
-    delete a.q;
-    delete a.f;
+    delete a.m;
+    delete a.c;
     for (g in a) {
       "constructor" !== g && a.hasOwnProperty(g) && "function" === typeof a[g] && "function" === typeof m[g] && !a[g].hasOwnProperty("__Class") && c.test(a[g]) && (a[g] = k(g, a[g]));
     }
@@ -52,7 +52,7 @@ w.extend = function() {
     };
     d = function() {
       var a = this.constructor.prototype;
-      if (a.hasOwnProperty("abstractClass") && !0 === a.o) {
+      if (a.hasOwnProperty("abstractClass") && !0 === a.j) {
         throw Error("Error: Cannot instantiate abstract class");
       }
       return n.apply(this, arguments);
@@ -60,10 +60,10 @@ w.extend = function() {
     l.prototype = m;
     h = d.prototype = new l;
     h.constructor = d;
-    d.l = d.h = m;
+    d.g = d.e = m;
     d.u = !0;
-    d.d = function(a) {
-      w.d(d, a);
+    d.b = function(a) {
+      w.b(d, a);
     };
     d.extend = function(a) {
       return w.extend(d, a);
@@ -71,17 +71,17 @@ w.extend = function() {
     d.a = function(a) {
       return w.a(d, a);
     };
-    h.l = h.D = function() {
+    h.g = h.A = function() {
       return m;
     };
-    h.d = b;
+    h.b = b;
     h.a = function(a) {
       return w.a(this.constructor, a);
     };
-    w.d(d, a);
+    w.b(d, a);
     if (!p) {
       for (var t in h) {
-        if (h[t] === w.p) {
+        if (h[t] === w.k) {
           if (h.hasOwnProperty(t)) {
             throw Error("The class being created has abstract method '" + t + "', but is not declared with 'abstractClass: true'");
           }
@@ -89,8 +89,8 @@ w.extend = function() {
         }
       }
     }
-    if (r || e.g) {
-      r = w.apply({}, r, e.g), w.apply(d, r), d.g = r;
+    if (r || e.d) {
+      r = w.apply({}, r, e.d), w.apply(d, r), d.d = r;
     }
     q && w.apply(d, q);
     if (s) {
@@ -99,14 +99,14 @@ w.extend = function() {
           "undefined" === typeof h[g] && (h[g] = q[g]);
         }
       }
-      d.f = s;
+      d.c = s;
     }
     d.r && d.r(d);
     d.s && d.s(d);
     return d;
   };
 }();
-w.d = function(b, c) {
+w.b = function(b, c) {
   if (c) {
     var e = b.prototype;
     w.apply(e, c);
@@ -124,7 +124,7 @@ w.w = function(b, c) {
     if (b === c) {
       return!0;
     }
-    for (var e = b, a = e.prototype;e = (a = e.h) && a.constructor;) {
+    for (var e = b, a = e.prototype;e = (a = e.e) && a.constructor;) {
       if (a.constructor === c) {
         return!0;
       }
@@ -133,14 +133,14 @@ w.w = function(b, c) {
   return!1;
 };
 w.a = function(b, c) {
-  var e = c.m;
-  e || (e = c.m = ++v);
-  var a = b.n;
-  a || (a = b.n = {});
+  var e = c.h;
+  e || (e = c.h = ++v);
+  var a = b.i;
+  a || (a = b.i = {});
   if (e in a) {
     return a[e];
   }
-  var k = b.f, l = b.l || b.h;
+  var k = b.c, l = b.g || b.e;
   if (k) {
     for (var d = 0, n = k.length;d < n;d++) {
       if (k[d] === c) {
@@ -150,41 +150,18 @@ w.a = function(b, c) {
   }
   return l && l.constructor && l.constructor !== Object ? (k = w.a(l.constructor, c), a[e] = k) : a[e] = !1;
 };
-var x = w.create({constructor:function(b) {
+var x = new (w.create({constructor:function(b) {
   for (var c in b) {
     this[c] = b[c];
   }
-}, j:function() {
+}, p:function() {
   console.log("Id: " + this.id);
-}, e:function() {
-  console.log("First Name: " + this.b);
-}, k:function() {
-  console.log("Last Name: " + this.i);
-}});
-x.extend({constructor:function(b) {
-  this.c(arguments);
-  this.b += " THE OBSERVER";
-}, e:function() {
-  this.c(arguments);
-  console.log("ZOMG after logFirstName(): " + this.b);
-}, A:function() {
-  console.log("Observer name: ", this.C);
-}});
-x.extend({B:function() {
-  console.log("Username: " + this.F);
-}});
-var y = new (w.create({constructor:function(b) {
-  for (var c in b) {
-    this[c] = b[c];
-  }
-}, j:function() {
-  console.log("Id: " + this.id);
-}, e:function() {
-  console.log("First Name: " + this.b);
-}, k:function() {
-  console.log("Last Name: " + this.i);
-}}))({id:1, b:"Bob", i:"Smith"});
-y.j();
-y.e();
-y.k();
+}, o:function() {
+  console.log("First Name: " + this.l);
+}, q:function() {
+  console.log("Last Name: " + this.n);
+}}))({id:1, l:"Bob", n:"Smith"});
+x.p();
+x.o();
+x.q();
 
