@@ -11,14 +11,6 @@ module.exports = function( grunt ) {
 		
 		requireJsOutputDir = jsBuildDir + '/requireJsOutput';
 	
-	// Configurations
-	/*var jsDir = 'js',
-		jsBuildDir = 'output',
-		bowerDir = 'bower_components',
-		
-		requireJsOutputDir = jsBuildDir + '/requireJsOutput';
-	*/
-	
 	
 	// Register main tasks
 	grunt.registerTask( 'default', "Default task runs JSHint and then builds the project.", 
@@ -139,7 +131,7 @@ module.exports = function( grunt ) {
 				// [OPTIONAL] Set Closure Compiler Directives here
 				compilerOpts: {
 					compilation_level: 'ADVANCED_OPTIMIZATIONS',
-					formatting: 'PRETTY_PRINT',
+					//formatting: 'PRETTY_PRINT',
 					warning_level: 'verbose',
 					jscomp_off: ['checkTypes', 'fileoverviewTags'],
 					summary_detail_level: 3,
@@ -147,10 +139,10 @@ module.exports = function( grunt ) {
 					transform_amd_modules: null,
 					process_common_js_modules: null,
 					common_js_entry_module: jsBuildDir + '/closurePreProcess/main.js',
-					common_js_module_path_prefix: jsBuildDir + '/closurePreProcess/'//,
+					common_js_module_path_prefix: jsBuildDir + '/closurePreProcess/',
 					
 					// Ignore JSDuck tags
-					//extra_annotation_name: [ 'abstract', 'alias', 'cfg', 'chainable', 'inheritable', 'inheritdoc', 'hide', 'singleton' ]
+					extra_annotation_name: [ 'abstract', 'alias', 'cfg', 'chainable', 'inheritable', 'inheritdoc', 'hide', 'singleton' ]
 				},
 				
 				// [OPTIONAL] Set exec method options
