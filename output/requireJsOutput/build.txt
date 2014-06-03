@@ -1,6 +1,0 @@
-
-main.js
-----------------
-Class.js
-person/Person.js
-main.js
